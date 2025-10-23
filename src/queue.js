@@ -1,6 +1,6 @@
 import { NotImplementedError } from '../extensions/index.js';
 
-// import { ListNode } from '../extensions/list-node.js';
+import { ListNode } from '../extensions/list-node.js';
 
 /**
  * Implement the Queue with a given interface via linked list (use ListNode extension above).
@@ -14,20 +14,42 @@ import { NotImplementedError } from '../extensions/index.js';
  * queue.getUnderlyingList() // returns { value: 3, next: null }
  */
 export default class Queue {
-
-  getUnderlyingList() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor() {
+    this.head = null;  // front of the queue
+    this.tail = null;  // back of the queue
   }
 
-  enqueue(/* value */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  getUnderlyingList() {
+    return this.head;
+  }
+
+  enqueue(value) {
+    const newNode = new ListNode(value);
+    
+    if (!this.head) {
+      // If queue is empty, new node becomes both head and tail
+      this.head = newNode;
+      this.tail = newNode;
+    } else {
+      // Add to the end (tail) of the queue
+      this.tail.next = newNode;
+      this.tail = newNode;
+    }
   }
 
   dequeue() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    if (!this.head) {
+      return undefined; // or throw an error, depending on requirements
+    }
+    
+    const dequeuedValue = this.head.value;
+    this.head = this.head.next;
+    
+    // If we just removed the last element, update tail to null
+    if (!this.head) {
+      this.tail = null;
+    }
+    
+    return dequeuedValue;
   }
-
 }
